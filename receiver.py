@@ -59,16 +59,12 @@ def main():
     replayer = StrokeReplayer(bbox)
     stop_event = threading.Event()
 
-    def process_loop():
-        while not stop_event.is_set():
-            replayer.process_one()
-            time.sleep(0.001)
-
     reader_thread = threading.Thread(target=_stdin_reader, args=(replayer, stop_event), daemon=True)
-    processor_thread = threading.Thread(target=process_loop, daemon=True)
     reader_thread.start()
-    processor_thread.start()
-    stop_event.wait()
+    # Run process_loop on main thread so pyautogui works on macOS (requires main thread)
+    while not stop_event.is_set():
+        replayer.process_one()
+        time.sleep(0.001)
 
 
 if __name__ == "__main__":

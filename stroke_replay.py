@@ -1,18 +1,15 @@
 """
 stroke_replay.py — Process normalized stroke events into real mouse actions.
 
-Takes a bounding box and applies mousedown/mousemove/mouseup/clear events
-via pyautogui. Uses a thread-safe queue (max 10); if over 10, drops oldest (FIFO).
-Each process step applies only the last (most recent) event in the queue.
+Takes a bounding box and applies mousedown/mousemove/mouseup/clear events.
+Uses mouse_control for move/down/up (Quartz on macOS, pyautogui elsewhere).
+Thread-safe queue (max 10); if over 10, drops oldest (FIFO).
 """
 
 import queue
 import threading
 
-import pyautogui
-
-pyautogui.FAILSAFE = False
-pyautogui.PAUSE = 0
+from mouse_control import mouse_down, mouse_move, mouse_up
 
 MAX_QUEUE = 10
 
@@ -64,26 +61,27 @@ class StrokeReplayer:
         kind = msg.get("type")
         nx = float(msg.get("x", 0.0))
         ny = float(msg.get("y", 0.0))
-        ny = 1 - ny # invert y axis
+        ny = 1 - ny  # invert y axis
         sx, sy = self._map_to_screen(nx, ny)
 
         if kind == "mousedown":
-            pyautogui.moveTo(sx, sy)
-            pyautogui.mouseDown()
+            mouse_move(sx, sy)
+            mouse_down(sx, sy)
             self._mouse_down = True
         elif kind == "mousemove" and self._mouse_down:
-            pyautogui.moveTo(sx, sy)
+            mouse_move(sx, sy)
         elif kind == "mouseup":
-            pyautogui.moveTo(sx, sy)
-            pyautogui.mouseUp()
+            mouse_move(sx, sy)
+            mouse_up(sx, sy)
             self._mouse_down = False
         elif kind == "clear":
             if self._mouse_down:
-                pyautogui.mouseUp()
+                mouse_up(sx, sy)
                 self._mouse_down = False
 
     def release_if_down(self) -> None:
         """Release mouse button if currently down (e.g. on disconnect)."""
         if self._mouse_down:
-            pyautogui.mouseUp()
+            x, y = self._map_to_screen(0.5, 0.5)
+            mouse_up(x, y)
             self._mouse_down = False
