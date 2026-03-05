@@ -271,6 +271,8 @@ def select_bounding_box() -> tuple[int, int, int, int] | None:
     app.activateIgnoringOtherApps_(True)
     app.run()
     NSEvent.removeMonitor_(key_monitor)
+    win.close()
+    app.deactivate()
 
     if not result:
         return None
