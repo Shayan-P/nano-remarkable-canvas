@@ -61,7 +61,6 @@ class StrokeReplayer:
         kind = msg.get("type")
         nx = float(msg.get("x", 0.0))
         ny = float(msg.get("y", 0.0))
-        ny = 1 - ny  # invert y axis
         sx, sy = self._map_to_screen(nx, ny)
 
         if kind == "mousedown":

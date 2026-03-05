@@ -35,8 +35,6 @@ def select_bounding_box() -> tuple[int, int, int, int] | None:
     result: list = []
 
     sf = NSScreen.mainScreen().frame()
-    W = int(sf.size.width)
-    H = int(sf.size.height)
 
     ACCENT_C = NSColor.colorWithRed_green_blue_alpha_(0.37, 0.91, 1.00, 1.0)
     HANDLE_C = NSColor.colorWithRed_green_blue_alpha_(1.00, 0.37, 0.67, 1.0)
@@ -282,4 +280,4 @@ def select_bounding_box() -> tuple[int, int, int, int] | None:
     x2 = int(max(sx, ex))
     y1_ns = int(min(sy, ey))
     y2_ns = int(max(sy, ey))
-    return (x1, H - y2_ns, x2, H - y1_ns)
+    return (x1, y1_ns, x2, y2_ns)

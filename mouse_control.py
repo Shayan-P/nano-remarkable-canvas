@@ -3,6 +3,10 @@
 Mouse control — move and click. On macOS uses Quartz; elsewhere uses pyautogui.
 All coordinates are screen pixels with origin top-left.
 
+macOS: Grant Accessibility in System Settings → Privacy & Security → Accessibility
+for your terminal/IDE. When first requested, a pop-up usually appears—click
+"Open System Settings" to enable it.
+
 Exports: mouse_move, mouse_down, mouse_up (for stroke_replay).
 Standalone usage:
   python mouse_control.py              # demo: move to center and click

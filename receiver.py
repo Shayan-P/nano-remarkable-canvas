@@ -9,8 +9,9 @@ receiver.py — Virtual Board Event Receiver
 Requirements:
     pip install pyautogui
 
-macOS note: grant Accessibility permissions to Terminal/iTerm in
-System Settings → Privacy & Security → Accessibility.
+macOS: Grant Accessibility (System Settings → Privacy & Security → Accessibility)
+for your terminal/IDE so it can control the mouse. When first requested, a
+pop-up usually appears—click "Open System Settings" to enable it.
 """
 
 import json
