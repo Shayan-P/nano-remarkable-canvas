@@ -20,14 +20,10 @@ Add your terminal (Terminal.app, iTerm, Cursor, etc.) and turn it on. The first 
 
 ## Quick start
 
-1. Set your reMarkable IP (e.g. in `run.sh`):
+- find your reMarkable IP from `Remarkable Settings > Help > Copyright`
+- make sure you are connected to the same network as the reMarkable
+then run: 
 
-   ```bash
-   REMARKABLE_IP=192.168.1.89
-   ```
-
-2. Run:
-
-   ```bash
-   ./run.sh
-   ```
+```bash
+REMARKABLE_IP=192.168.1.89 run.sh 
+```
